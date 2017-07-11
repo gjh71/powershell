@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="Windows-1252" ?>
+<prtg>
+   <result>
+       <channel>Demo Minimum Example</channel>
+       <value>3</value>
+   </result>
+   <result>
+       <channel>Demo Disk Free</channel>
+       <unit>Percent</unit>
+       <mode>Absolute</mode>
+       <showChart>1</showChart>
+       <showTable>1</showTable>
+       <warning>0</warning>
+       <float>1</float>
+       <value>38.4487</value>
+       <LimitMaxError>80</LimitMaxError>
+       <LimitMaxWarning>37</LimitMaxWarning>
+       <LimitWarningMsg>My custom note for warnings</LimitWarningMsg>
+       <LimitErrorMsg>My custom note for errors</LimitErrorMsg>
+       <LimitMode>1</LimitMode>
+   </result>
+   <result>
+       <channel>Demo Network Speed</channel>
+       <unit>SpeedNet</unit>
+       <volumeSize>MegaBit</volumeSize>
+       <mode>Absolute</mode>
+       <showChart>1</showChart>
+       <showTable>1</showTable>
+       <warning>0</warning>
+       <float>0</float>
+       <value>124487000</value>
+   </result>
+   <result>
+       <channel>Demo Custom</channel>
+       <unit>Custom</unit>
+       <customUnit>Pieces</customUnit>
+       <mode>Absolute</mode>
+       <showChart>1</showChart>
+       <showTable>1</showTable>
+       <warning>0</warning>
+       <float>0</float>
+       <value>855</value>
+   </result>
+   <text>Demo values. OS: Windows_NT</text>
+</prtg>
