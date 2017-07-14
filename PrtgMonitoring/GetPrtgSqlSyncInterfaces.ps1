@@ -17,13 +17,11 @@ else
 {
     Push-Location $dbLocation
     $sql = @"
-select c.SourceLastSyncCowData, 
-	min(datediff(second, c.DateLastSyncCowData, getutcdate())) as LastSyncInSeconds
-from koe.bedrijf b
-inner join koe.CompanyStatus c on c.CompanyId = b.PK_Bedrijf
-where b.[Status] = 1
-and c.SourceLastSyncCowData is not null
-group by c.SourceLastSyncCowData
+select 
+	substring([Type], 0, charindex('_LastModifiedDate', [Type])) as channelName,
+	datediff(second, [dModify], GETUTCDATE()) as channelValue
+from [CowManager].[Koe].[Setting]
+where Category =  'DataInterface' 
 "@
     $resultset = Invoke-Sqlcmd -Query $sql -QueryTimeout 15
     Pop-Location
@@ -33,12 +31,13 @@ group by c.SourceLastSyncCowData
 $events = @()
 foreach ($result in $resultset)
 {
-    Write-Verbose("Analyse: {0}" -f $result.SourceLastSyncCowData)
+    Write-Verbose("Analyse: {0}" -f $result.channelName)
 
     $pPrtgObject = New-PrtgObject `
-            -channel $result.SourceLastSyncCowData `
-            -value ($result.LastSyncInSeconds) `
-            -unit "sec" `
+            -channel $result.channelName `
+            -value ($result.channelValue) `
+            -unit "Custom" `
+            -customUnit "sec" `
             -mode "Absolute" `
             -showChart 1 `
             -LimitMaxError 0 `

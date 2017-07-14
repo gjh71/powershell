@@ -17,7 +17,7 @@ param(
     <mode></mode>
     <showChart>0</showChart>
     <showTable>0</showTable>
-    <float></float>
+    <float>0</float>
     <LimitMaxError></LimitMaxError>
     <LimitMaxWarning></LimitMaxWarning>
     <LimitWarningMsg></LimitWarningMsg>
@@ -49,7 +49,11 @@ param(
             {
                 $eventNode.showTable = "1"
             }
-            $eventNode.float = "{0}" -f $event.float
+            if ($event.float -eq $true)
+            {
+                $eventNode.float = "1"
+            }
+            #$eventNode.float = "{0}" -f $event.float
             $eventNode.LimitMaxError = "{0}" -f $event.LimitMaxError
             $eventNode.LimitMaxWarning = "{0}" -f $event.LimitMaxWarning
             $eventNode.LimitErrorMsg = $event.LimitErrorMsg

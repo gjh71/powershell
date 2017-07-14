@@ -5,15 +5,15 @@ function New-PrtgObject
         [string]$channel,
         [Parameter(Mandatory=$true)]
         [string]$value,
-    #    [ValidateSet("BytesBandwidth", "BytesMemory", "BytesDisk", "Temperature", "Percent", "TimeResponse", "TimeSeconds", "TimeHours", "Count", "CPU", "BytesFile", "SpeedDisk", "SpeedNet", "Custom", "Value Lookup")]
-        [string]$unit = "Custom",
+        [ValidateSet("BytesBandwidth", "BytesMemory", "BytesDisk", "Temperature", "Percent", "TimeResponse", "TimeSeconds", "TimeHours", "Count", "CPU", "BytesFile", "SpeedDisk", "SpeedNet", "Custom", "Value Lookup")]
+        [string]$unit,
         $customUnit,
         $volumeSize,
     #    [ValidateSet("Absolute")]
         [string]$mode = "Absolute",
         [boolean]$showChart = $true,
         [boolean]$showTable = $true,
-        $float,
+        [boolean]$float = $false,
         $LimitMaxError,
         [string]$LimitErrorMsg,
         $LimitMaxWarning,

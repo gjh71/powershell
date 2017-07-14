@@ -17,7 +17,6 @@ foreach ($queue in $msmqs)
     $pPrtgObject = New-PrtgObject `
             -channel $queue.QueueName `
             -value ($queue.MessageCount) `
-            -unit "#" `
             -mode "Absolute" `
             -showChart 1 `
             -LimitMaxError 0 `
