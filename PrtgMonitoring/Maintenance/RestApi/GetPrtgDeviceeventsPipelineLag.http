@@ -1,0 +1,12 @@
+@env = "prod"
+@urip = https://cmdeviceeventfuncprod.blob.core.windows.net/logging/lag
+@sasp = sp=r&st=2019-12-24T13:38:23Z&se=2055-12-24T21:38:23Z&spr=https&sv=2019-02-02&sr=b&sig=yX%2B%2Fy9DOYSlIWaLFTI6MbvikypDQAkSA8OXymsDteps%3D
+@urib = https://cmdeviceeventfuncbeta.blob.core.windows.net/logging/lag
+@sasb = sp=r&st=2019-12-30T13:06:50Z&se=2055-12-30T21:06:50Z&spr=https&sv=2019-02-02&sr=b&sig=hMHEhS7EbA9wOLUtj6K7b9y5dtvxs4Kq1QpZryGILP4%3D
+@urit = https://cmdeviceeventfunctest.blob.core.windows.net/logging/lag
+@sast = sp=r&st=2019-12-30T13:32:12Z&se=2055-12-30T21:32:12Z&spr=https&sv=2019-02-02&sr=b&sig=iZ6MyDbx8cWtk1XhdhHGKfkxz4hM1Vn9tzCoppBTn50%3D
+
+@uri={{urip}}
+@sas={{sasp}}
+get {{uri}}?{{sas}}
+

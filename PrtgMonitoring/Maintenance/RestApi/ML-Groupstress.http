@@ -1,0 +1,10 @@
+@baseuri = 46031b6b-0c7a-4b94-b496-fd5e61c2f0b7.westeurope.azurecontainer.io/
+@useragent = VsCodeRest-{{$processEnv USERNAME}}-{{$processEnv COMPUTERNAME}}
+
+
+###
+# @name Get-Health
+GET http://{{baseuri}}/
+Api-Version: 1
+Content-Type: application/json
+User-Agent: {{useragent}}

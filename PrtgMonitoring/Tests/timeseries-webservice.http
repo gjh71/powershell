@@ -1,0 +1,22 @@
+# Note: Install Visual studio code plugin: REST client
+
+@targetstage = test
+#@targetstage = beta
+@apikey = {{$processEnv cmts_test_ak}}
+@baseuri = https://cm-timeseries-{{targetstage}}-wa.azurewebsites.net
+@companyid = 12146
+#@companyid = 11996
+
+get {{baseuri}}/health
+
+###
+get {{baseuri}}/swagger/v1/swagger.json
+
+###
+get {{baseuri}}/api/companies
+X-Api-Key: {{apikey}}
+
+###
+get {{baseuri}}/api/companies/{{companyid}}/cows
+X-Api-Key: {{apikey}}
+

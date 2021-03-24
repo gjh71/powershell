@@ -1,0 +1,147 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "group-stress-v2",
+    "description": "API specification for the Azure Machine Learning service group-stress-v2",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "description": "Simple health check endpoint to ensure the service is up at any given point.",
+        "operationId": "ServiceHealthCheck",
+        "responses": {
+          "200": {
+            "description": "If service is up and running, this response will be returned with the content 'Healthy'",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Healthy"
+              }
+            }
+          },
+          "default": {
+            "description": "The service failed to execute due to an error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/score": {
+      "post": {
+        "description": "Run web service's model and get the prediction output",
+        "operationId": "RunMLService",
+        "requestBody": {
+          "description": "The input payload for executing the real-time machine learning service.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ServiceInput"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "description": "The service processed the input correctly and provided a result prediction, if applicable.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceOutput"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "The service failed to execute due to an error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "x-codegen-request-body-name": "serviceInputPayload"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ServiceInput": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "method": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "data": [],
+          "method": "predict_proba"
+        }
+      },
+      "ServiceOutput": {
+        "type": "object",
+        "properties": {
+          "predict_proba": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        },
+        "example": {
+          "predict_proba": []
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "status_code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "apiKey",
+        "description": "For example: Bearer abc123",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  }
+}

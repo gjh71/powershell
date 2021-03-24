@@ -1,0 +1,15 @@
+@targetstage = test-
+@targetstage = beta-
+@targetstage = 
+@baseuri = https://manufactoor.{{targetstage}}cowmanager.com
+@userid = ManufactOor.Api
+@userpwd = --secret--
+
+# $credentials = "{0}:{1}" -f $env:prtg_windowsuser, $env:prtg_windowspassword
+# $header = @{
+#     Authorization = "Basic {0}" -f ([System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes($credentials)))
+# }
+# $uri = "https://{0}/ManufactOor.Api/v1/ErrorLog/GetUnsolvedErrorCount" -f $baseuri
+
+get {{baseuri}}/Manufactoor.Api/v1/ErrorLog/GetUnsolvedErrorCount
+Authorization: Basic TWFudWZhY3Rvb3IuQXBpOlJLI2prdHI3RUAlUVcwMzVJfEx5

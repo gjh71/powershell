@@ -1,0 +1,7 @@
+@usernm = {{$processEnv USERNAME}}
+@userpasshash = {{$processEnv passhash}}
+
+# @name get-devices
+get https://monitor.cowmanager.com:8080/api/table.xml?username={{usernm}}&passhash={{userpasshash}}&content=devices&columns=objid,downtimesince,device,sensor,lastvalue,status,message,priority,tags,comments&output=json
+
+# @name get-sensors

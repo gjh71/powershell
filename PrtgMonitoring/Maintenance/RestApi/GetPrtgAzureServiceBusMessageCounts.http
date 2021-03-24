@@ -1,0 +1,38 @@
+@applicationid = f9a05369-9950-4104-a996-d306e1443842
+@applicationpwd = 6n0hB=HC6t5XJJWUldvB_NWXrMRa-C:B
+@tenantid = 70b87ecb-180d-460e-8397-552f53f5509a
+@subscriptionid = 3cce63cc-7694-47ff-aeac-6d62305d0f64
+@resourcegroup = cm-readmodel-test-rg
+@namespace = cm-readmodel-test-bus
+@apiVersion = 2015-08-01
+@token = eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IllNRUxIVDBndmIwbXhvU0RvWWZvbWpxZmpZVSIsImtpZCI6IllNRUxIVDBndmIwbXhvU0RvWWZvbWpxZmpZVSJ9.eyJhdWQiOiJodHRwczovL21hbmFnZW1lbnQuYXp1cmUuY29tLyIsImlzcyI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzcwYjg3ZWNiLTE4MGQtNDYwZS04Mzk3LTU1MmY1M2Y1NTA5YS8iLCJpYXQiOjE1ODYxODkxOTMsIm5iZiI6MTU4NjE4OTE5MywiZXhwIjoxNTg2MTkzMDkzLCJhaW8iOiI0MmRnWUpDeWVpUDdUa00xb1B0bWtZcUhac0JwQUE9PSIsImFwcGlkIjoiZjlhMDUzNjktOTk1MC00MTA0LWE5OTYtZDMwNmUxNDQzODQyIiwiYXBwaWRhY3IiOiIxIiwiaWRwIjoiaHR0cHM6Ly9zdHMud2luZG93cy5uZXQvNzBiODdlY2ItMTgwZC00NjBlLTgzOTctNTUyZjUzZjU1MDlhLyIsIm9pZCI6IjJhZTI5Y2IzLWI1MjItNDQ3OC05Mjg3LWQyYzAxYzQxNGRiOCIsInN1YiI6IjJhZTI5Y2IzLWI1MjItNDQ3OC05Mjg3LWQyYzAxYzQxNGRiOCIsInRpZCI6IjcwYjg3ZWNiLTE4MGQtNDYwZS04Mzk3LTU1MmY1M2Y1NTA5YSIsInV0aSI6IldJbEZXREtZNTBpRjVIU3BseG8zQUEiLCJ2ZXIiOiIxLjAifQ.PGcwcrCa060T4LhYaCoURm8NZr0aSXO8M8cAmxOFLLgO8yFltSifEfFafQHybHXznEI8Gl1pclScqpMqkBcTsyZKJ0rM4LBthzF15HM8Ujw9Ws7EF9CuWrgyuwGb-h3ev31Rl49NeWolGRFwD1_S7VGiUSzMMufmVNH3_bQ_zOaMIL4Jiap0v2Z8mPqsXFzDEuGelnmzXL0CBpldK2rkdNV46ciDV0FbPfdkMJtgdfoUVfm6GbhMkuoxXSnJGH-Co1VyHCOj7AAEi_RBgEO-OU_V1zFL9tJ7IB6fhHYWkEyuy8Re3WoaEaggg77r6h9i5-okLfhefw-yo1yp8unpZA
+
+// hmmm, not working yet: request body must contain 'grant_type', but .. thats in it!?!?!
+# @name  GetToken
+POST https://login.microsoftonline.com/{{tenantid}}/oauth2/token
+content-type: application/json
+
+{
+    "grant_type" : "client_credentials",
+    "client_id" : "{{applicationid}}",
+    "client_secret" : "{{applicationpwd}}",
+    "resource" : "https://management.azure.com/"
+}
+
+#@token = {{GetToken.response.body.access_token}}
+###
+# @name GetQueues
+GET https://management.azure.com/subscriptions/{{subscriptionid}}/resourceGroups/{{resourcegroup}}/providers/Microsoft.ServiceBus/namespaces/{{namespace}}/queues?api-version={{apiVersion}}
+Authorization: Bearer {{token}}
+
+###
+# @name GetTopics
+GET https://management.azure.com/subscriptions/{{subscriptionid}}/resourceGroups/{{resourcegroup}}/providers/Microsoft.ServiceBus/namespaces/{{namespace}}/topics?api-version={{apiVersion}}
+Authorization: Bearer {{token}}
+
+###
+# @name GetTopicSubscriptions
+@topic = systemalertgenerated
+GET https://management.azure.com/subscriptions/{{subscriptionid}}/resourceGroups/{{resourcegroup}}/providers/Microsoft.ServiceBus/namespaces/{{namespace}}/topics/{{token}}/subscriptions?api-version={{apiVersion}}
+Authorization: Bearer {{token}}
+

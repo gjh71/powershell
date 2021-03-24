@@ -1,0 +1,76 @@
+pool:
+  name: cm-harmelen-dev
+steps:
+
+- task: PowerShell@2
+  displayName: 'PowerShell Script - pre build'
+  inputs:
+    targetType: filePath
+    filePath: './build/01_Pre_Build.ps1'
+
+- task: CopyFiles@2
+  displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+  inputs:
+    SourceFolder: '$(system.defaultworkingdirectory)'
+    TargetFolder: '$(build.artifactstagingdirectory)'
+
+- task: DeleteFiles@1
+  displayName: 'Delete files from $(build.artifactstagingdirectory)'
+  inputs:
+    SourceFolder: '$(build.artifactstagingdirectory)'
+    Contents: |
+     .git
+     .vscode
+     .vs
+     .gitignore
+
+- task: PowerShell@2
+  displayName: 'PowerShell Script - main build'
+  inputs:
+    targetType: filePath
+    filePath: './build/11_Main_Build.ps1'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: prtg-customers'
+  inputs:
+    ArtifactName: 'prtg-customsensors'
+
+- task: octopusdeploy.octopus-deploy-build-release-tasks.octopus-pack.OctopusPack@4
+  displayName: 'Package prtg-customsensors'
+  inputs:
+    PackageId: 'prtg-customsensors'
+    PackageFormat: Zip
+    PackageVersion: '$(Build.BuildNumber)'
+    SourcePath: '$(Build.ArtifactStagingDirectory)'
+
+- task: PowerShell@2
+  displayName: 'PowerShell Script - post build'
+  inputs:
+    targetType: filePath
+    filePath: './build/21_Post_Build.ps1'
+
+- task: octopusdeploy.octopus-deploy-build-release-tasks.octopus-push.OctopusPush@4
+  displayName: 'Push Packages to Octopus'
+  inputs:
+    OctoConnectedServiceName: 'Octopus-ServiceAccount-Publish-buildsvr01'
+    Package: 'prtg-customsensors.$(Build.BuildNumber).zip'
+
+- task: octopusdeploy.octopus-deploy-build-release-tasks.octopus-create-release.OctopusCreateRelease@4
+  displayName: 'Create Octopus Release'
+  inputs:
+    OctoConnectedServiceName: 'Octopus-ServiceAccount-Publish-buildsvr01'
+    ReleaseNumber: '$(Build.BuildNumber)'
+    Space: 'Spaces-1'
+    ProjectName: PRTG-Sensors
+    Channel: Default
+    ChangesetCommentReleaseNotes: true
+    DeployToEnvironment: Test
+
+- task: octopusdeploy.octopus-deploy-build-release-tasks.octopus-deploy.OctopusDeployRelease@4
+  displayName: 'Deploy Octopus Release - Test'
+  inputs:
+    OctoConnectedServiceName: 'Octopus-ServiceAccount-Publish-buildsvr01'
+    Space: 'Spaces-1'
+    Project: PRTG-Sensors
+    ReleaseNumber: '$(Build.BuildNumber)'
+    Environments: 'Test'

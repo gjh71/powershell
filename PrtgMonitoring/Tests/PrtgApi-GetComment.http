@@ -1,0 +1,20 @@
+@baseuri = monitor.cowmanager.com:8080
+@username = gj.hiddink
+@passhash = 4038885330
+
+
+@sensorid = 4859
+
+###
+# Header 'Accept-encoding' needed. Otherwise: 'incorrect header check'
+###
+
+### SensorOverview
+https://{{baseuri}}/api/table.json?content=sensors&columns=sensor&username={{username}}&passhash={{passhash}}
+Accept-Encoding: identity
+
+### Get-Comment
+get https://{{baseuri}}/api/getobjectproperty.htm?show=text&username={{usernm}}&passhash={{passhash}}&id={{sensorid}}&name=comments
+Accept-Encoding: identity
+
+### 

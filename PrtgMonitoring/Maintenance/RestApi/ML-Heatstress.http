@@ -1,0 +1,37 @@
+@tenantid = 70b87ecb-180d-460e-8397-552f53f5509a
+# PRTG Monitor test
+# @clientid = de1394c3-4387-4e96-9f66-f3f6d4d8db40
+# @clientsecret = xxx
+# PRTG Monitor prod
+@clientid = 9356f128-78d3-487c-96ac-622d95b6535d
+@clientsecret = xxx
+@baseuri = 712e099b-760d-43bd-b583-f42b79506fbc.westeurope.azurecontainer.io/
+@useragent = VsCodeRest-{{$processEnv USERNAME}}-{{$processEnv COMPUTERNAME}}
+@access_token = {{GetToken.response.body.access_token}}
+
+### Get the token
+# @name GetToken
+#curl -X POST https://login.microsoftonline.com/{your-tenant-id}/oauth2/token -d "grant_type=client_credentials&resource=https%3A%2F%2Fmanagement.azure.com%2F&client_id={your-client-id}&client_secret={your-client-secret}" \
+post https://login.microsoftonline.com/{{tenantid}}/oauth2/token
+
+grant_type=client_credentials&resource=https%3A%2F%2Fmanagement.azure.com%2F&client_id={{clientid}}&client_secret={{clientsecret}}
+
+
+###
+# @name Get-Health
+GET http://{{baseuri}}/
+Api-Version: 1
+Content-Type: application/json
+User-Agent: {{useragent}}
+
+
+###
+# @name Run-MLService
+POST http://{{baseuri}}/score
+Api-Version: 1
+Content-Type: application/json
+User-Agent: {{useragent}}
+Authorization: Bearer {{access_token}}
+
+
+

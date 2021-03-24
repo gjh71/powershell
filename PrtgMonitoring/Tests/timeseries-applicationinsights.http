@@ -1,0 +1,17 @@
+# Note: Install Visual studio code plugin: REST client
+
+@targetstage = test
+#@targetstage = beta
+@apikey = {{$processEnv cmts_test_akai}}
+@appid = {{$processEnv cmts_test_appid}}
+@baseuri = https://api.applicationinsights.io
+@companyid = 12146
+#@companyid = 11996
+
+###
+# @name lasttime
+@jsonQuery = {timespan = "PT60M"; query = "requests | where name == "POST /api/ingress/hourbehavior" | order by timestamp desc | project timestamp | limit 1 "}
+get {{baseuri}}/v1/apps/{{appid}}/query?{{jsonQuery}}
+Accept: application/json
+X-Api-Key: {{apikey}}
+
