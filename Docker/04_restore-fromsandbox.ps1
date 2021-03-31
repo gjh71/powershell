@@ -1,0 +1,2 @@
+$sqlcred = get-credential -Message "need sql credentials" -UserName "sa"
+. "C:\dev.cm\cm-sql\Server\Backup-Restore\GenerateRestoreScriptForDatabasesFromBlobs.ps1" -azureaccountname "cmbackupsandbox" -azureaccountkey "PmWGLTN8d0B8COIa6JULL1rAP8gB4W14IcosAxY08UH1axSt5Vm/NwGWVPleTMqkU0hBw2dR7CgCEYKnRdijKg==" -dbServer "127.0.0.1" -sqlcredentials $sqlcred
